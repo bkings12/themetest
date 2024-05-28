@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!--=============== REMIXICONS ===============-->
+      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+      <!-- Icon Font Stylesheet -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+      <!--=============== CSS ===============-->
+
+       <!-- Libraries Stylesheet -->
+       <link href="/assets/themetest/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+       <link href="/assets/themetest/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+       <!-- Customized Bootstrap Stylesheet -->
+       <link href="/assets/themetest/css/bootstrap.min.css" rel="stylesheet">
+
+      <link rel="stylesheet" href="./assets/themetest/css/main.css">
+      
+
+      {% block meta_block %}
+		{% include "templates/includes/meta_block.html" %}
+	{% endblock %}
+
+	<title>{% block title %}{{ title | striptags }}{% endblock %}</title>
+
+	{% block favicon %}
+	<link
+		rel="shortcut icon"
+		href="{{ (favicon ) | abs_url }}"
+		type="image/x-icon"
+	>
+	{% endblock %}
+
+	{%- block head -%}
+		{% include "templates/includes/head.html" %}
+	{%- endblock -%}
+
+	{%- block head_include %}
+		{{ head_include or "" }}
+	{% endblock -%}
+
+	{%- block style %}
+		{% if colocated_css -%}
+			<style>{{ colocated_css }}</style>
+		{%- endif %}
+	{%- endblock -%}
+
+	<script>
+		window.frappe = {};
+		frappe.ready_events = [];
+		frappe.ready = function(fn) {
+			frappe.ready_events.push(fn);
+		}
+		window.dev_server = {{ dev_server }};
+		window.socketio_port = {{ (frappe.socketio_port or 9000) }};
+		window.show_language_picker = {{ show_language_picker or 'false' }};
+	</script>
+  
+</head>
+  <body frappe-session-status="{{ 'logged-in' if frappe.session.user != 'Guest' else 'logged-out'}}" data-path="{{ path | e }}" {%- if template and template.endswith('.md') %} frappe-content-type="markdown" {%- endif %} class="{{ body_class or ''}}">
+      <!--=============== HEADER ===============-->
+      <div class="container-fluid fixed-top">
+         <div class="container topbar bg-primary d-none d-lg-block">
+             <div class="d-flex justify-content-between">
+               {% include "public/icons/timeless/icons.svg" %}
+               {% include "public/icons/espresso/icons.svg" %}
+               {%- block banner -%}
+                  {% include "templates/includes/banner_extension.html" ignore missing %}
+            
+                  {% if banner_html -%}
+                  {{ banner_html or "" }}
+                  {%- endif %}
+               {%- endblock -%}
+             </div>
+         </div>
+         <div class="container px-0">
+             <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                 <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">
+                  {%- if brand_html -%}
+				      {{ brand_html }}
+			         {%- elif banner_image -%}
+				      <img src='{{ banner_image }}'>
+			         {%- else -%}
+				      <span>{{ (frappe.get_hooks("brand_html") or [_("Home")])[0] }}</span>
+			         {%- endif -%}
+                 </h1></a>
+                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                     <span class="fa fa-bars text-primary"></span>
+                 </button>
+                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                     <div class="navbar-nav mx-auto">
+                        {% include "templates/includes/navbar/navbar_items.html" %}
+                     </div>
+
+
+                    
+                        <div class="d-flex m-3 me-0">
+                            
+                            
+                            {% if not only_static %}
+    
+                   {% if frappe.session.user != 'Guest' %}
+                   <li class="nav-item dropdown logged-in" id="website-post-login" data-label="website-post-login" style="display: none">
+                      <a href="#" class="fas fa-user fa-2x" data-toggle="dropdown">
+                        
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                         {%- for child in post_login -%}
+                         {%- if child.url -%}
+                         <a class="dropdown-item" href="{{ child.url | abs_url }}"  {% if child.open_in_new_tab %} target="_blank" {% endif %} rel="nofollow">
+                            {{ child.label }}
+                         </a>
+                         {%- endif -%}
+                         {%- endfor -%}
+                         <a class="dropdown-item switch-to-desk hidden" href="/app">{{ _('Switch To Desk') }}</a>
+                      </ul>
+                   </li>
+                   {% endif %}
+                 
+                   {% if not hide_login %}
+                   <li class="nav-item">
+          <a class="nav-link btn-login-area" href="/login">{{ _("Login") }}</a>
+       </li>
+       {% endif %}
+    {% endif %}
+                            
+                        </div>
+                    
+                     
+                 </div>
+             </nav>
+         </div>
+     </div>
+     <!-- Navbar End -->
+     {% block content %}
+		{{ content }}
+	{% endblock %}
+
+   {% block base_scripts %}
+	<!-- js should be loaded in body! -->
+	<script>
+		frappe.boot = {{ boot }}
+		// for backward compatibility of some libs
+		frappe.sys_defaults = frappe.boot.sysdefaults;
+	</script>
+	{{ include_script('frappe-web.bundle.js') }}
+	{% endblock %}
+
+	{%- for link in web_include_js %}
+	{{ include_script(link) }}
+	{%- endfor -%}
+
+	{%- block script %}
+		{% if colocated_js -%}
+			<script>{{ colocated_js }}</script>
+		{%- endif %}
+	{%- endblock %}
+	<!-- csrf_token -->
+	{%- block body_include %}{{ body_include or "" }}{% endblock -%}
+
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/themetest/lib/easing/easing.min.js"></script>
+    <script src="/assets/themetest/lib/waypoints/waypoints.min.js"></script>
+    <script src="/assets/themetest/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/assets/themetest/lib/owlcarousel/owl.carousel.min.js"></script>
+
+      <!--=============== MAIN JS ===============-->
+      <script src="./assets/themetest/js/main.js"></script>
+   </body>
+</html>

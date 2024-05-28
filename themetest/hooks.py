@@ -14,8 +14,8 @@ app_license = "mit"
 # app_include_js = "/assets/themetest/js/themetest.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/themetest/css/themetest.css"
-# web_include_js = "/assets/themetest/js/themetest.js"
+web_include_css = "/assets/themetest/css/main.css"
+web_include_js = "/assets/themetest/js/main.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "themetest/public/scss/website"
