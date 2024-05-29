@@ -15,7 +15,20 @@ app_license = "mit"
 
 # include js, css files in header of web template
 web_include_css = "/assets/themetest/css/main.css"
-web_include_js = "/assets/themetest/js/main.js"
+#web_include_css = "/assets/themetest/css/bootstrap.min.css"
+#web_include_css = "/assets/themetest/lib/owlcarousel/assets/owl.carousel.min.css"
+#web_include_css = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+#web_include_css = "https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+
+
+
+#web_include_js = "/assets/themetest/js/main.js"
+#web_include_js = "/assets/themetest/lib/owlcarousel/owl.carousel.min.js"
+#web_include_js = "/assets/themetest/lib/lightbox/js/lightbox.min.js"
+#web_include_js = "/assets/themetest/lib/waypoints/waypoints.min.js"
+#web_include_js = "/assets/themetest/lib/easing/easing.min.js"
+#web_include_js = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+#web_include_js = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "themetest/public/scss/website"

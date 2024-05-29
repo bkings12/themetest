@@ -82,7 +82,7 @@
 }
 
 .topbar {
-  padding: 20px;
+  padding: 10px !important;
   border-radius: 230px 100px;
 }
 
@@ -118,14 +118,19 @@
 
 /*** Navbar Start ***/
 .navbar .navbar-nav .nav-link {
-  padding: 10px 15px;
+  padding: 8px 10px;
   font-size: 16px;
   transition: .5s;
+}
+.bg-white {
+  background-color: #fff !important;
+  margin-bottom: 30px;
 }
 
 .navbar {
   height: 100px;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 2px solid rgba(255, 255, 255, .1);
+  margin-bottom: 40px !important ; /* Add margin here */
 }
 
 .navbar .navbar-nav .nav-link:hover,
@@ -166,7 +171,7 @@
   transform: rotateX(0deg);
   visibility: visible;
   background: var(--bs-light) !important;
-  border-radius: 10px !important;
+  border-radius: 5px !important;
   transition: .5s;
   opacity: 1;
 }
